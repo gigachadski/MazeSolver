@@ -1,5 +1,4 @@
-﻿
-namespace MazeSolver
+﻿namespace MazeSolver
 {
     // Перелік режимів редагування лабіринту
     public enum EditMode { ToggleWall, SetStart, SetEnd }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-
-namespace MazeSolver
+﻿namespace MazeSolver
 {
     // граф у вигляді матриці суміжності
     public class MazeGraph

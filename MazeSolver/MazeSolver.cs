@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using MazeSolver;
-
-namespace MazeSolver
+﻿namespace MazeSolver
 {
     // Клас, що реалізує алгоритми пошуку шляху (Дейкстра, A* з різними евристиками)
     public class MazeSolver

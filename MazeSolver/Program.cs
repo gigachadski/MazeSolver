@@ -1,10 +1,6 @@
-using System;
-using System.Windows.Forms;
-using MazeSolver;
-
 namespace MazeSolver
 {
-    // Точка входу додатку
+    
     static class Program
     {
         [STAThread]
@@ -15,7 +11,6 @@ namespace MazeSolver
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new MainForm());
-
             }
             catch (Exception ex)
             {

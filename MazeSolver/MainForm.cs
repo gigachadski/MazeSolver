@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
-using MazeSolver;
+﻿
 
-namespace MazeSolver
+namespace MazeSolver 
 {
     // Головна форма 
     public partial class MainForm : Form
@@ -13,7 +8,7 @@ namespace MazeSolver
         // Поле для SplitContainer, щоб була видимість у всіх методах
         private SplitContainer splitContainer;
 
-
+        // Ініціалізація MazePanel та інших контролів
         private MazePanel mazePanel = new MazePanel(15, 15, CellSize);
         private Button btnSolve = new Button();
         private Button btnClear = new Button();
@@ -36,7 +31,7 @@ namespace MazeSolver
 
         // Constants
         private const int CellSize = 30;
-        public new const int Margin = 20;
+        public new const int Margin = 20; 
         private const int MIN_SIZE = 5;
         private const int MAX_SIZE_ROWS = 25;
         private const int MAX_SIZE_COLS = 40;
@@ -81,21 +76,6 @@ namespace MazeSolver
             InitializeStatusStrip();
         }
 
-        /// <summary>  
-        /// Ініціалізує елементи керування для вибору режиму редагування лабіринту.  
-        /// </summary>  
-        /// <remarks>  
-        /// Ця функція створює три радіокнопки для вибору режиму редагування:  
-        /// - "Редагувати стіни" (за замовчуванням)  
-        /// - "Встановити старт"  
-        /// - "Встановити фініш"  
-        ///  
-        /// Всі кнопки додаються до групового контейнера (GroupBox),  
-        /// який розташовується у правій панелі інтерфейсу (Panel2).  
-        ///  
-        /// Подія CheckedChanged для кожної кнопки підписана на метод RbEditMode_CheckedChanged,  
-        /// який змінює поточний режим редагування залежно від вибраної кнопки.  
-        /// </remarks>  
         private void InitializeEditModeControls()
         {
             // Radio buttons  
@@ -120,21 +100,6 @@ namespace MazeSolver
             splitContainer.Panel2.Controls.Add(gbEditMode);
         }
 
-        /// <summary>  
-        /// Ініціалізує елементи керування для налаштування розміру лабіринту.  
-        /// </summary>  
-        /// <remarks>  
-        /// Цей метод створює елементи інтерфейсу для зміни розмірів лабіринту:  
-        /// - Два текстові підписи ("Рядки" і "Стовпці").  
-        /// - Два елементи NumericUpDown для введення кількості рядків і стовпців.  
-        /// - Кнопку "Оновити розмір" для застосування змін.  
-        ///  
-        /// Всі ці елементи додаються до групового контейнера (GroupBox),  
-        /// який розташовується у правій панелі інтерфейсу (Panel2).  
-        ///  
-        /// Подія Click для кнопки "Оновити розмір" підписана на метод BtnUpdateSize_Click,  
-        /// який виконує перевірку введених значень і оновлює розмір лабіринту.  
-        /// </remarks>  
         private void InitializeSizeControls()
         {
             // Labels  
@@ -166,21 +131,6 @@ namespace MazeSolver
             gbSize.Controls.AddRange(new Control[] { lblRows, nudRows, lblCols, nudCols, btnUpdateSize });
             splitContainer.Panel2.Controls.Add(gbSize);
         }
-
-        /// <summary>  
-        /// Ініціалізує елементи керування для вибору алгоритму пошуку шляху.  
-        /// </summary>  
-        /// <remarks>  
-        /// Цей метод створює текстовий підпис ("Алгоритм пошуку") та випадаючий список (ComboBox),  
-        /// який дозволяє користувачеві вибрати один із доступних алгоритмів пошуку шляху:  
-        /// - "Дейкстра"  
-        /// - "A* (манхеттенська евристика)"  
-        /// - "A* (евклідова евристика)"  
-        ///  
-        /// Випадаючий список налаштований так, щоб користувач міг вибрати лише один із варіантів (DropDownList).  
-        /// За замовчуванням вибраний перший елемент ("Дейкстра").  
-        /// Обидва елементи додаються до правої панелі інтерфейсу (Panel2) у SplitContainer.  
-        /// </remarks>  
         private void InitializeAlgorithmControls()
         {
             // Algorithm label  
@@ -225,10 +175,9 @@ namespace MazeSolver
         {
             lblResults.Text = "Результати:";
             lblResults.Dock = DockStyle.Top;
-            lblResults.Height = 80;
+            lblResults.Height = 80; 
             splitContainer.Panel2.Controls.Add(lblResults);
         }
-
         private void InitializeStatusStrip()
         {
             statusStrip.Dock = DockStyle.Bottom;
@@ -236,7 +185,6 @@ namespace MazeSolver
             Controls.Add(statusStrip);
         }
 
-        // Event handlers
         private void MazePanel_Changed(object? sender, EventArgs e)
         {
             lblResults.Text = "Результати:";
@@ -248,16 +196,6 @@ namespace MazeSolver
             else if (rbSetEnd.Checked) CurrentEditMode = EditMode.SetEnd;
             else CurrentEditMode = EditMode.ToggleWall;
         }
-
-        /// <summary>  
-        /// Оновлює текст статусного рядка внизу форми.  
-        /// </summary>  
-        /// <param name="message">Текст повідомлення, який потрібно відобразити у статусному рядку.</param>  
-        /// <remarks>  
-        /// Ця функція змінює текст статусного рядка, використовуючи передане повідомлення.  
-        /// Вона може бути викликана для інформування користувача про поточний стан програми,  
-        /// наприклад, про успішне виконання дії або виникнення помилки.  
-        /// </remarks>  
         private void UpdateStatus(string message)
         {
             statusLabel.Text = message;
@@ -290,6 +228,33 @@ namespace MazeSolver
                 UpdateStatus("Помилка при оновленні розміру.");
             }
         }
+        private void BtnClear_Click(object? sender, EventArgs e)
+        {
+            try
+            {
+                mazePanel.InitializeMaze(mazePanel.Rows, mazePanel.Cols);
+                UpdateStatus("Лабіринт очищено.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Помилка при очищенні лабіринту: " + ex.Message,
+                                "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void BtnGenerate_Click(object? sender, EventArgs e)
+        {
+            try
+            {
+                mazePanel.GenerateRandomMaze();
+                UpdateStatus("Згенеровано випадковий лабіринт.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Помилка при генерації лабіринту: " + ex.Message,
+                                "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
 
         private void BtnSolve_Click(object? sender, EventArgs e)
         {
@@ -324,20 +289,30 @@ namespace MazeSolver
                         $"Алгоритм: {algorithmName}\n" +
                         $"Довжина шляху: {result.Path.Count}\n" +
                         $"Ітерацій: {result.IterationCount}";
+
                     SavePathToFile(result.Path, algorithmName, result.Path.Count, result.IterationCount);
+
                     UpdateStatus($"Шлях знайдено! Довжина: {result.Path.Count}, Ітерації: {result.IterationCount}");
                     MessageBox.Show(
                         $"Шлях знайдено!\nДовжина шляху: {result.Path.Count}\n" +
                         $"Кількість ітерацій: {result.IterationCount}\n" +
-                        $"Результати збережено у файл results.txt",
+                        $"Результати збережено у файл.",
                         "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    lblResults.Text = "Шлях не знайдено!";
+                    lblResults.Text = $"Алгоритм: {algorithmName}\n" +
+                                      $"Шлях не знайдено!\n" +
+                                      $"Ітерацій: {result.IterationCount}";
                     UpdateStatus("Шлях не знайдено! Перевірте, чи існує прохід між стартом і фінішем.");
                     MessageBox.Show("Шлях не знайдено!", "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+            }
+            catch (ArgumentException argEx)
+            {
+                MessageBox.Show($"Помилка налаштування пошуку: {argEx.Message}",
+                               "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                UpdateStatus($"Помилка: {argEx.Message}");
             }
             catch (Exception ex)
             {
@@ -347,120 +322,61 @@ namespace MazeSolver
             }
         }
 
-        /// <summary>  
-        /// Очищає лабіринт, скидаючи його до початкового стану.  
-        /// </summary>  
-        /// <remarks>  
-        /// Ця функція викликає метод InitializeMaze для повторної ініціалізації лабіринту  
-        /// з поточними розмірами, видаляючи всі стіни, шлях та інші зміни.  
-        /// Також оновлює статус програми, щоб відобразити успішне очищення.  
-        /// У разі виникнення помилки відображає повідомлення з описом помилки.  
-        /// </remarks>  
-        private void BtnClear_Click(object? sender, EventArgs e)
+        private void SavePathToFile(List<Point> path, string algorithm, int pathLength, int iterations) 
         {
-            try
-            {
-                // Повторна ініціалізація лабіринту з поточними розмірами  
-                mazePanel.InitializeMaze(mazePanel.Rows, mazePanel.Cols);
-
-                // Оновлення статусу програми  
-                UpdateStatus("Лабіринт очищено.");
-            }
-            catch (Exception ex)
-            {
-                // Відображення повідомлення про помилку у разі невдачі  
-                MessageBox.Show("Помилка при очищенні лабіринту: " + ex.Message,
-                                "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        /// <summary>  
-        /// Генерує випадковий лабіринт із гарантованим шляхом від старту до фінішу.  
-        /// </summary>  
-        /// <remarks>  
-        /// Ця функція викликає метод GenerateRandomMaze() у панелі лабіринту (MazePanel),  
-        /// який створює новий лабіринт із випадковим розташуванням стін,  
-        /// але з обов'язковим прохідним шляхом між стартовою і кінцевою точками.  
-        /// У разі успіху оновлює статус програми.  
-        /// Якщо виникає помилка, відображає повідомлення з описом помилки.  
-        /// </remarks>  
-        private void BtnGenerate_Click(object? sender, EventArgs e)
-        {
-            try
-            {
-                // Викликає метод для генерації випадкового лабіринту  
-                mazePanel.GenerateRandomMaze();
-
-                // Оновлює статус у нижній панелі  
-                UpdateStatus("Згенеровано випадковий лабіринт.");
-            }
-            catch (Exception ex)
-            {
-                // Відображає повідомлення про помилку у разі невдачі  
-                MessageBox.Show("Помилка при генерації лабіринту: " + ex.Message,
-                                "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        /// <summary>  
-        /// Зберігає результати пошуку шляху у текстовий файл.  
-        /// </summary>  
-        /// <param name="path">Список точок (Point), що представляють знайдений шлях.</param>  
-        /// <param name="algorithm">Назва алгоритму, який використовувався для пошуку шляху.</param>  
-        /// <param name="pathLength">Довжина знайденого шляху.</param>  
-        /// <param name="iterations">Кількість ітерацій, виконаних під час пошуку шляху.</param>  
-        /// <exception cref="ArgumentNullException">Викидається, якщо шлях (path) дорівнює null.</exception>  
-        /// <exception cref="IOException">Викидається, якщо виникла помилка запису у файл.</exception>  
-        private void SavePathToFile(List<Point> path, string algorithm, int pathLength, int iterations)
-        {
-
             if (path == null)
-
-                throw new ArgumentNullException(nameof(path), "Шлях не може бути null");
-
-
-
-            try
-
             {
-
-                using var writer = new StreamWriter("results.txt");
-
-                writer.WriteLine("======================================");
-
-                writer.WriteLine("      Результати пошуку шляху         ");
-
-                writer.WriteLine("======================================");
-
-                writer.WriteLine($"Алгоритм пошуку: {algorithm}");
-
-                writer.WriteLine($"Довжина шляху: {pathLength}");
-
-                writer.WriteLine($"Кількість ітерацій: {iterations}");
-
-                writer.WriteLine("======================================");
-
-                writer.WriteLine("Шлях (координати):");
-
-                foreach (Point p in path)
-
-                    writer.WriteLine($"({p.X}, {p.Y})");
-
-                writer.WriteLine("======================================");
-
-                writer.WriteLine($"Час запису: {DateTime.Now}");
-
+                UpdateStatus("Шлях не знайдено, збереження скасовано.");
+                return;
             }
 
-            catch (IOException ioEx)
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Текстові файли (*.txt)|*.txt|Всі файли (*.*)|*.*";
+            saveFileDialog.Title = "Зберегти результати пошуку шляху";
+            string safeAlgorithmName = string.Join("_", algorithm.Split(Path.GetInvalidFileNameChars()));
+            saveFileDialog.FileName = $"Результати_{safeAlgorithmName}_{DateTime.Now:yyyyMMdd_HHmmss}.txt";
+            saveFileDialog.DefaultExt = "txt";
+            saveFileDialog.AddExtension = true;
+            saveFileDialog.OverwritePrompt = true;
 
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-
-                throw new IOException("Помилка запису у файл", ioEx);
-
+                string filePath = saveFileDialog.FileName;
+                try
+                {
+                    using (var writer = new StreamWriter(filePath))
+                    {
+                        writer.WriteLine("======================================");
+                        writer.WriteLine("      Результати пошуку шляху         ");
+                        writer.WriteLine("======================================");
+                        writer.WriteLine($"Алгоритм пошуку: {algorithm}");
+                        writer.WriteLine($"Довжина шляху: {pathLength}");
+                        writer.WriteLine($"Кількість ітерацій: {iterations}");
+                        writer.WriteLine("======================================");
+                        writer.WriteLine("Шлях (координати):");
+                        foreach (Point p in path)
+                            writer.WriteLine($"({p.X}, {p.Y})");
+                        writer.WriteLine("======================================");
+                        writer.WriteLine($"Час запису: {DateTime.Now}");
+                    }
+                    UpdateStatus($"Результати збережено у файл: {filePath}");
+                    MessageBox.Show($"Результати успішно збережено у файл:\n{filePath}", "Збереження файлу", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (IOException ioEx)
+                {
+                    MessageBox.Show($"Помилка запису у файл: {ioEx.Message}", "Помилка збереження", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    UpdateStatus($"Помилка запису у файл: {ioEx.Message}");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Невідома помилка при збереженні файлу: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    UpdateStatus($"Помилка збереження: {ex.Message}");
+                }
             }
-
+            else
+            {
+                UpdateStatus("Збереження файлу скасовано користувачем.");
+            }
         }
-
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace MazeSolver
+﻿namespace MazeSolver
 {
     // Клас, що описує вузол (клітинку) для алгоритму пошуку шляху  
     public class Node

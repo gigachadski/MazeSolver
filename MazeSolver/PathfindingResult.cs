@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-
-namespace MazeSolver
+﻿namespace MazeSolver
 {
     // Клас, що містить результати пошуку шляху
     public class PathfindingResult
